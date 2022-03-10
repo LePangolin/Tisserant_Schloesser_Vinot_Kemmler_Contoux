@@ -48,6 +48,10 @@ function (Request $rq, Response $rs, array $args):Response{
     return $controller->creerCommande($rq,$rs,$args);
 })->setName("formulaireCreerCommande");
 
+$app->get('/creerPost[/]',
+function (Request $rq,Response $rs, array $args):Response{
+
+});
 /*************************
  * connexion
  *************************/
