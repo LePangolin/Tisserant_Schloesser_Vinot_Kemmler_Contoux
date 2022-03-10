@@ -249,7 +249,8 @@ class VueUtilisateur{
             }
             case ControleurProduit::ALL_PRODUCTS : {
                 $content = $this->affichageProduit();
-                $title  = "Tout les produits disponible";
+                $title = "Tout les produits disponible";
+                $from = "produits.css";
                 break;
             }
             case ControleurCommande::COMMANDE : {
