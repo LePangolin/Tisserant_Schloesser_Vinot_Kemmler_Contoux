@@ -3,8 +3,8 @@ namespace custumbox\Modele;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Boite extends Model{
-    protected $table="boite";
+class Categorie extends Model{
+    protected $table="categorie";
     protected $primary="id";
     public $timestamps = false;
 }
