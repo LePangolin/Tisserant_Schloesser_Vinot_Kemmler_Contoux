@@ -76,7 +76,8 @@ class ControleurCompte {
         } else {
             $MotDePasse = password_hash($MotDePasse, PASSWORD_DEFAULT, $options);
             $newUser = new Compte();
-            $newUser->Login=$NomUtilisateur;$newUser->Mdp=$MotDePasse;
+            $newUser->Login=$NomUtilisateur;
+            $newUser->Mdp=$MotDePasse;
             $newUser->Mail=$Email;
             $newUser->Telephone = filter_var($content['phone'], FILTER_SANITIZE_STRING);
             $newUser->Niveau_acces=1;
