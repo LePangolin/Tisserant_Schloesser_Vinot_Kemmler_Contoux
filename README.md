@@ -5,6 +5,11 @@
 * Kemmler
 * Contoux
 
+# Compte de test
+
+* identifiant : test
+* mot de passe : motdepassetest
+
 # Fonctionnalités réalisées 
 
 * Affichage d'une page d'accueil avec une description de l'application et accès à la page avec ou sans connexion.
