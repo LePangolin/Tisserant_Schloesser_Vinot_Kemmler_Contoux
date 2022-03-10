@@ -3,7 +3,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    color: #ddd;
 }
 
 body {
@@ -11,8 +10,9 @@ body {
     background: #111E25;
 }
 
-.content{
+.content {
     margin-top: 50px;
+    color: #FFFF;
 }
 
 .content a {
