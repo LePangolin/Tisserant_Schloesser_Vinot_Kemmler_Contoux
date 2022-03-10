@@ -6,7 +6,7 @@ use custumbox\Modele\Produit;
 use Slim\Container;
 use Slim\Http\Response;
 
-class VueAffichageProduit{
+class VueProduit{
     private $c;
 
     public function __construct(Container $c)
@@ -18,7 +18,7 @@ class VueAffichageProduit{
         $prod = Produit::get();
         $body = "";
         foreach($prod as $p){
-
+            
         }
     }
 }
