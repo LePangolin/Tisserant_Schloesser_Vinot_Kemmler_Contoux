@@ -11,8 +11,9 @@ body {
 }
 
 .content {
-    margin-top: 50px;
+    margin: 50px;
     color: #FFFF;
+    font-family: Lucida Bright,Georgia,serif;
 }
 
 .content a {
@@ -20,12 +21,6 @@ body {
     font-family: inherit;
     font-size: inherit;
     text-decoration: none;
-}
-
-
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 .topnav {
@@ -126,3 +121,12 @@ h1 {
     font-size: 1.2em;
 }
 
+input {
+    margin-bottom: 40px;
+}
+
+label {
+    font-family: Lucida Bright,Georgia,serif;
+    font-size: 1.5em;
+    color:#F2DCA4;
+}
