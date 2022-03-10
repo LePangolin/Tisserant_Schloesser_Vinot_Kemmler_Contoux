@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace custumbox\php\Vue;
 
 use custumbox\php\controleur\ControleurAffichage;
 use custumbox\php\controleur\ControleurCommande;
+use custumbox\php\controleur\ControleurCompte;
 use custumbox\php\controleur\ControleurProduit;
 use custumbox\php\Modele\Produit;
 use custumbox\php\tools;
@@ -43,13 +45,18 @@ class VueUtilisateur{
     }
 
     private function affichageProduit(){
-        $body = "";
+        $body = <<<END
+        <form action="$this->base/produits">
+          <label for="q">Chercher un produit</label>
+          <input type="search" id="q" name="q">
+          <input type="submit" value="Rechercher">
+        </form>
+        END;
         foreach($this->tab as $p){
             $body .= "Nom du produit : $p->titre, <br> Poids du produit : $p->poids, <br> Description : $p->description &nbsp; <br> <img src=\"./assets/images/produits/$p->id.jpg\"></img> <br /> ";
         }
         return $body;
     }
-
 
     private function home(){
         $file = "./src/html/index.html";
@@ -212,6 +219,28 @@ class VueUtilisateur{
         return $body;
     }
 
+    /**
+     * Récupère la page de connexion
+     * @return string
+     */
+    private function loginPage(): string {
+        $file =  "./src/html/formLogin.html";
+        return file_get_contents($file);
+    }
+
+    /**
+     * Récupère la page d'inscription
+     * @return string
+     */
+    public function signUpPage(): string {
+        $file =  "./src/html/formSignUp.html";
+        return file_get_contents($file);
+    }
+    private function creerCommande():string{
+        $file="./src/html/index.html";
+        return file_get_contents($file);
+    }
+
     public function render(): string {
         $from = "";
         $htmlPage = "";
@@ -228,6 +257,14 @@ class VueUtilisateur{
                 $htmlPage = $this->home();
                 break;
             }
+            case ControleurCompte::LOGIN : {
+                $htmlPage = $this->loginPage();
+                break;
+            }
+            case ControleurCompte::SIGNUP : {
+                $htmlPage = $this->signUpPage();
+                break;
+            }
             case ControleurProduit::ALL_PRODUCTS : {
                 $content = $this->affichageProduit();
                 $title  = "Tout les produits disponible";
@@ -237,6 +274,11 @@ class VueUtilisateur{
                 $content = $this->formulaireCommande();
                 $title = "Création de votre commande";
                 $from = "commande.css";
+                break;
+            }
+            case ControleurCommande::COMMANDE_FORM_CREATE :{
+                $content =$this->creerCommande();
+                $title = 'Création d\'une commande';
                 break;
             }
         }

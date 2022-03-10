@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="style/indexStyle.css">
+</head>
+<body>
+<div class="center">
+    <h1>Connexion</h1>
+    <form action="./loginConfirm" method="post" enctype="multipart/form-data">
+        <div class="txt_field">
+            <input type="text" required id="username" name="username">
+            <span></span>
+            <label>Nom d'utilisateur</label>
+        </div>
+        <div class="txt_field">
+            <input type="password" required id="password" name="password">
+            <span></span>
+            <label>Mot de passe</label>
+        </div>
+        <div class="show">
+            <input type="checkbox" onclick="showOrNot()"> Voir le mot de passe
+        </div>
+        <input type="submit" value="Se connecter">
+        <div class="signup_link">
+            Vosu n'avez pas encore de compte ? <a href="./signUp">Inscrivez-vous.</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function showOrNot() {
+        let pass = document.getElementById("password");
+        if (pass.type === "password") {
+            pass.type = "text";
+        } else {
+            pass.type = "password";
+        }
+    }
+</script>
+
+</body>
+</html>

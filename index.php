@@ -16,6 +16,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use custumbox\php\controleur\ControleurAffichage;
 use custumbox\php\controleur\ControleurCommande;
+use custumbox\php\controleur\ControleurCompte;
 use custumbox\php\controleur\ControleurProduit;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -27,7 +28,7 @@ require 'vendor/autoload.php';
 $app = new App(dbInit::init());
 
 
-$app->get('/products',
+$app->get('/produits',
     function (Request $rq, Response $rs, array $args): Response {
         $controller = new ControleurProduit($this);
         return $controller->searchProducts($rq, $rs, $args);
@@ -40,20 +41,70 @@ function(Request $rq, Response $rs, array $args): Response{
     return $controller->afficherHome($rq,$rs,$args);
 })->setName("home");
 
-/*
-$app->post('/creerCommande[/]',
+
+
+$app->get('/formulaireCreerCommande[/]',
 function (Request $rq, Response $rs, array $args):Response{
-    $controlleur=new ControleurCommande($this);
-    return $controlleur->creerCommande($rq,$rs,$args);
-})->setName("createCommande");
-*/
+    $controller=new ControleurCommande($this);
+    return $controller->creerCommande($rq,$rs,$args);
+})->setName("formulaireCreerCommande");
 
-$app->get('/formulaireCommande[/]',
-    function (Request $rq, Response $rs, array $args):Response{
-        $controlleur=new ControleurCommande($this);
-        return $controlleur->enregistrerCommande($rq,$rs,$args);
-    })->setName("faireCommande");
+$app->get('/creerPost[/]',
+function (Request $rq,Response $rs, array $args):Response{
 
+});
+/*************************
+ * connexion
+ *************************/
+
+/**
+ * pages
+ */
+
+// connexion
+$app->get('/login',
+    function (Request $rq, Response $rs, array $args): Response {
+        $controller = new ControleurCompte($this);
+        return $controller->loginPage($rq, $rs, $args);
+
+    })->setName("login");
+
+// inscription
+$app->get('/signUp',
+    function (Request $rq, Response $rs, array $args): Response {
+        $controller = new ControleurCompte($this);
+        return $controller->signUpPage($rq, $rs, $args);
+
+    })->setName("signUp");
+
+// deconnexion
+$app->get('/logout',
+    function (Request $rq, Response $rs, array $args): Response {
+        $controller = new ControleurCompte($this);
+        return $controller->logout($rq, $rs, $args);
+
+    })->setName("logout");
+
+
+/**
+ * reception de donnees
+ */
+
+// reception connexion
+$app->post('/loginConfirm',
+    function (Request $rq, Response $rs, array $args): Response {
+        $controller = new ControleurCompte($this);
+        return $controller->authentification($rq, $rs, $args);
+
+    })->setName("loginConfirm");
+
+// reception inscription
+$app->post('/signupConfirm',
+    function (Request $rq, Response $rs, array $args): Response {
+        $controller = new ControleurCompte($this);
+        return $controller->newUser($rq, $rs, $args);
+
+    })->setName("signupConfirm");
 
 try {
     $app->run();

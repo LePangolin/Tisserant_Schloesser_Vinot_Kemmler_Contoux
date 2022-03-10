@@ -118,20 +118,16 @@ class tools {
      */
     public static function getHtml(string $from, string $htmlPage, string $title, string $notif, string $content, array $notifParams, string $base): string { 
         $style = $from != "" ? "<link rel='stylesheet' href='$base/style/$from'>": "";
-        $connexion = !isset($_SESSION['username'])
+        $connexion = !isset($_SESSION['Login'])
             ? "<a href='$base/login'>Connexion</a>"
             : <<<END
-            <a href="$base/list">Mes listes</a>
-            <a href='$base/monCompte'>👤 {$_SESSION['username']}</a>
             <a href='$base/logout'>Se déconnecter</a>
             END;
 
         $nav = <<<END
         <div class="topnav" id="myTopnav">
             <a href="$base/" class="active">CustomBox</a>
-            <a href="$base/products">Produit</a>
-            <a href="$base/token">jesais pas</a>
-            <a href="$base/createurs">allo</a>
+            <a href="$base/produits">Produit</a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <p class="fa fa-bars">
                     <span class="hamburger"></span>

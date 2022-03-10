@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Inscription</title>
+  <link rel="stylesheet" href="style/indexStyle.css">
+</head>
+<body>
+<div class="center">
+  <h1>Inscription</h1>
+  <form action="./signupConfirm" method="post" enctype="multipart/form-data">
+    <div class="txt_field">
+      <input type="text" required id="username" name="username">
+      <span></span>
+      <label>Nom d'utilisateur</label>
+    </div>
+    <div class="txt_field">
+      <input type="email" required id="email" name="email">
+      <span></span>
+      <label>Email</label>
+    </div>
+    <div class="txt_field">
+      <input type="tel" required id="phone" name="phone">
+      <span></span>
+      <label>Téléphone</label>
+    </div>
+    <div class="txt_field">
+      <input type="password" required id="password" name="password">
+      <span></span>
+      <label>Mot de passe</label>
+    </div>
+    <div class="txt_field">
+      <input type="password" required id="password_confirm" name="password_confirm">
+      <span></span>
+      <label>Confirmation mot de passe</label>
+    </div>
+    <div class="show">
+      <input type="checkbox" onclick="showOrNot()"> Voir le mot de passe
+    </div>
+    <input type="submit" value="S'inscrire">
+    <div class="signup_link">
+      Vous avez déjà un compte ? <a href="./login">Connectez-vous.</a>
+    </div>
+  </form>
+</div>
+
+
+<script>
+  function showOrNot() {
+    let pass = document.getElementById("password");
+    let passConfirm = document.getElementById("password_confirm");
+    if (pass.type === "password" && pass.type === "password") {
+      pass.type = "text";
+      passConfirm.type = "text";
+    } else {
+      pass.type = "password";
+      passConfirm.type = "password";
+    }
+  }
+</script>
+
+</body>
+</html>
