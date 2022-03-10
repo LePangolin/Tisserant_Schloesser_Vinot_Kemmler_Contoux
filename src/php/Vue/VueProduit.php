@@ -2,7 +2,7 @@
 
 namespace custumbox\php\Vue;
 
-use custumbox\Modele\Produit;
+use custumbox\php\Modele\Produit;
 use Slim\Container;
 use Slim\Http\Response;
 
