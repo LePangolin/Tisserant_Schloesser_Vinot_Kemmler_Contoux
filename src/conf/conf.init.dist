@@ -1,0 +1,7 @@
+driver=mysql
+username=custombox
+password=custombox
+host=localhost
+database=customBox
+charset=utf8
+collation=utf8_unicode_ci

@@ -1,12 +1,13 @@
 <?php
 /**
  * File:  index.php
- * description: fichier index projet wishlist
+ * description: fichier index projet CrazyCharlyDay
  *
  * @author: contoux
  * @author: tisserant
  * @author: kemmler
- * @author: lopes vaz
+ * @author: schloesser
+ * @author vinot
  */
 
 session_start();
