@@ -34,6 +34,7 @@ class ControleurCompte
         $c->sel = password_hash(filter_var($args['Mdp'], FILTER_SANITIZE_STRING), PASSWORD_DEFAULT);
         $c->Mail = filter_var($args['Mail'], FILTER_SANITIZE_EMAIL);
         $c->Telephone = filter_var($args['Telephone'], FILTER_SANITIZE_STRING);
+        $c->Niveau_acces = 1;
         $c->save();
     }
 
