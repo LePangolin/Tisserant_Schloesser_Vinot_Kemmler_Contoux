@@ -62,14 +62,14 @@ class ControleurProduit{
 
         $container = $this->c;
         $base = $rq->getUri()->getBasePath();
-        $route_uri = $container->router->pathFor('produitVierge');
+        $route_uri = $container->router->pathFor('creerProduit');
         $url = $base . $route_uri;
 
         $notif = tools::prepareNotif($rq);
 
 
-        if (!isset($_SESSION['username']) || !isset($_SESSION['AccessRights'])) {
-            $notifMsg = urlencode("Impossible de créer une nouvelle liste. Reconnectez-vous.");
+        if (!isset($_SESSION['Login']) || !isset($_SESSION['AccessRights'])) {
+            $notifMsg = urlencode("Impossible de créer une nouveau Produit. Reconnectez-vous.");
             return $rs->withRedirect($base."/login?notif=$notifMsg");
         }
 
@@ -80,7 +80,7 @@ class ControleurProduit{
     public function constructionProduit(Request $rq,Response $rs,array $args):Response{
         $container = $this->c;
         $base = $rq->getUri()->getBasePath();
-        $route_uri = $container->router->pathFor('nouvelleCommande');
+        $route_uri = $container->router->pathFor('nouveauProduit');
         $url = $base . $route_uri;
 
         $content = $rq->getParsedBody();
