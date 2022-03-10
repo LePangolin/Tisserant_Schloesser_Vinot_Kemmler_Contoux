@@ -7,8 +7,8 @@
 
 # Compte de test
 
-* identifiant : antoine
-* mot de passe : sapulplex
+* identifiant : test
+* mot de passe : motdepassetest
 
 # Fonctionnalités réalisées 
 
