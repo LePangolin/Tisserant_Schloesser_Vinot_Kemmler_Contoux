@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace custumbox\php\controleur;
 
 // IMPORTS
+
+use custumbox\php\Modele\Produit;
+use custumbox\php\tools;
+use custumbox\php\Vue\VueUtilisateur;
 use Slim\Container;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
 /**
  * Classe controleurAffichage,
@@ -14,10 +20,22 @@ use Slim\Container;
 class ControleurAffichage
 {
     // ATTRIBUTS
-    private $container;
+    private $c;
+    const HOME = "Home";
 
     // CONSTRUCTEUR
-    public function __construct(Container $container) {
-        $this->container = $container;
+    public function __construct(object $container) {
+        $this->c = $container;
+    }
+
+    public function afficherHome(Request $rq, Response $rs, array $args): Response{
+        $container = $this->c;
+        $base = $rq->getUri()->getBasePath();
+        $route_uri = $container->router->pathFor("home",$args);
+        $url = $base . $route_uri;
+        $notif = tools::prepareNotif($rq);
+        $vue = new VueUtilisateur([],ControleurAffichage::HOME,$notif,$base);
+        $rs->getBody()->write($vue->render());
+        return $rs;
     }
 }

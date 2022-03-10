@@ -2,6 +2,7 @@
 
 namespace custumbox\php\Vue;
 
+use custumbox\php\controleur\ControleurAffichage;
 use custumbox\php\controleur\ControleurProduit;
 use custumbox\php\Modele\Produit;
 use custumbox\php\tools;
@@ -40,7 +41,7 @@ class VueUtilisateur{
         $this->base = $b;
     }
 
-    public function affichageProduit(){
+    private function affichageProduit(){
         $prod = Produit::get();
         $body = "";
         foreach($prod as $p){
@@ -62,7 +63,16 @@ class VueUtilisateur{
                 $from = 'EditStyle.css';
                 break;
             }
+            case ControleurAffichage::HOME : {
+                $htmlPage = $this->home(); 
+                break;
+            }
         }
         return tools::getHtml($from, $htmlPage, $title, $notif, $content, $this->notif, $this->base);
+    }
+
+    private function home(){
+        $file = "./src/html/index.html";
+        return file_get_contents($file);
     }
 }
