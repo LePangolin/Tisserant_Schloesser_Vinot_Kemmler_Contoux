@@ -7,6 +7,7 @@ namespace custumbox\php\controleur;
 // IMPORTS
 use custumbox\php\Modele\Boite;
 use custumbox\php\Modele\Commande;
+use custumbox\php\Modele\Compte;
 use custumbox\php\Modele\Produit;
 use custumbox\php\tools;
 use custumbox\php\Vue\VueUtilisateur;
@@ -40,16 +41,15 @@ class ControleurCommande {
 
         $content = $rq->getParsedBody();
 
-        if (isset($_SESSION['username']) && isset($_SESSION['AccessRights'])) {
-            $nomBoite=filter_var($content['boite'],FILTER_SANITIZE_STRING);
+        if (isset($_SESSION['Login']) && isset($_SESSION['AccessRights'])) {
+            $nomBoite=$content['taille'];
             $message=filter_var($content['message'],FILTER_SANITIZE_STRING);
-            $idCreateur=$content['createur'];
             $couleur=$content['couleur'];
             $destinaire=filter_var($content['destinataire'],FILTER_SANITIZE_STRING);
-            $lien=$content['lien'];
             $produits=$content['produits'];
-            $boite=Boite::where("taille","=",$nomBoite);
 
+
+            $boite=Boite::where("taille","=",$nomBoite)->first();
             if(is_null($boite)){
                 $notifMsg = urlencode("Taille de boite inconnue, veuillez contacter un administrateur");
                 return $rs->withRedirect($base."?notif=$notifMsg");
@@ -57,10 +57,10 @@ class ControleurCommande {
                 $CommandeToAdd=new Commande();
                 $CommandeToAdd->idBoite=$boite->id;
                 $CommandeToAdd->Message=$message;
-                $CommandeToAdd->idCreateur=$idCreateur;
+                $CommandeToAdd->loginCreateur=$_SESSION['Login'];
                 $CommandeToAdd->Couleur=$couleur;
                 $CommandeToAdd->Destinataire=$destinaire;
-                $CommandeToAdd->Lien=$lien;
+                //$CommandeToAdd->Lien=null;
                 $CommandeToAdd->save();
                 foreach ($produits as $produit){
                     $prod=Produit::where("name","=",$produit['nom']);
@@ -70,7 +70,7 @@ class ControleurCommande {
                 return $rs->withRedirect($base."?notif=$notifMsg");
             }
         }else{
-            $notifMsg = urlencode("Impossible de créer une nouvelle liste. Reconnectez-vous.");
+            $notifMsg = urlencode("Impossible de créer une nouvelle commande. Reconnectez-vous.");
             return $rs->withRedirect($base."/login?notif=$notifMsg");
         }
     }
@@ -90,7 +90,7 @@ class ControleurCommande {
 
         $notif = tools::prepareNotif($rq);
 
-        if (!isset($_SESSION['username']) || !isset($_SESSION['AccessRights'])) {
+        if (!isset($_SESSION['Login']) || !isset($_SESSION['AccessRights'])) {
             $notifMsg = urlencode("Impossible de créer une nouvelle commande. Reconnectez-vous.");
             return $rs->withRedirect($base."/login?notif=$notifMsg");
         }
@@ -108,8 +108,6 @@ class ControleurCommande {
         $url = $base . $route_uri;
         $notif = tools::prepareNotif($rq);
         $listeProduit = Produit::get();
-
-
         $vue = new VueUtilisateur($listeProduit,ControleurCommande::COMMANDE,$notif,$base);
         $rs->getBody()->write($vue->render());
 

@@ -74,7 +74,7 @@ class VueUtilisateur{
 
         $body =  <<<END
         <div id="form-outer"> 
-            <form id="survey-form" action="$this->base/nouvelleCommande">
+            <form id="survey-form" method="post" action="$this->base/nouvelleCommande">
                 <div class="rowTab">
                     <div>
                         <select id="dropdown" name="taille" class="dropdown" defaultValue>
@@ -90,7 +90,7 @@ class VueUtilisateur{
                         <label for="comments">Un message à ajouter ?</label>
                     </div>
                     <div class="rigtTab">
-                        <textarea id="comments" class="input-field" style="height:50px; resize:vertical;" placeholder="je sais pas"></textarea>
+                        <textarea id="comments" name="message" class="input-field" style="height:50px; resize:vertical;" placeholder="je sais pas"></textarea>
                     </div>
                 </div>
                 <div class="baseColor">
@@ -99,10 +99,10 @@ class VueUtilisateur{
                 </div>
                 <div class="rowTab">
                     <div class="labels">
-                        <label for="destinaire">Un message à ajouter ?</label>
+                        <label for="destinaire">Quel est votre destinataire ?</label>
                     </div>
                     <div>
-                        <input id="destinaire" class="input-field" type="text" placeholder="Adresse"/>
+                        <input id="destinaire" name="destinataire" class="input-field" type="text" placeholder="Adresse"/>
                     </div>
                 </div>
                 <input id="contenu-cart" style="display: none;" type="text" value=""/>
