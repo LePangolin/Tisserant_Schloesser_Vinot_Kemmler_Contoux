@@ -75,7 +75,7 @@ CREATE TABLE `utilisateur` (
                                `Mdp` varchar(255) NOT NULL,
                                `Telephone` varchar(11) NOT NULL,
                                `Mail` varchar(255) NOT NULL,
-                               `Role` varchar(255),
+                               `Niveau_acces` int(1),
                                PRIMARY KEY (`Login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
