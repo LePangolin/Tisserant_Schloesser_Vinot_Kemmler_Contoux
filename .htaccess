@@ -1,0 +1,21 @@
+RewriteEngine On
+#
+# RewriteBase indispensable sur webetu :
+# remplacer <login> et <projet> par les valeurs correpsondant à
+# votre cas - par exemple :
+# RewriteBase /www/username0/custumbox/
+RewriteBase /www/<login>/<projet>/
+
+
+#
+# Pour interdire l'accès aux répertoires contenant du code
+RewriteRule ^sql(/.*|)$ - [NC,F]
+RewriteRule ^src(/.*|)$ - [NC,F]
+RewriteRule ^vendor(/.*|)$ - [NC,F]
+
+#
+# réécriture pour slim
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]

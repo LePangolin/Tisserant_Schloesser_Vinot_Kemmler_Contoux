@@ -1,0 +1,13 @@
+{
+	"require":{
+		"illuminate/database": "8.*",
+		"slim/slim": "3.*",
+		"php": ">=7.3"
+	},
+
+	"autoload":{
+		"psr-4": {
+			"custumbox\\" : "src/"
+		}
+	}
+}
