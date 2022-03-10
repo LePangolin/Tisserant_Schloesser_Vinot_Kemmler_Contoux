@@ -14,11 +14,12 @@ class VueProduit{
         $this->c = $c;
     }
 
-    public function affichageProduit(Response $response){
+    public function affichageProduit(){
         $prod = Produit::get();
         $body = "";
         foreach($prod as $p){
-            
+            $body .= "Nom du produit : $p->titre,  Poids du produit : $p->poids  &nbsp; <img src=\"./assets/images/produits/$p->id.jpg\"></img> ";
         }
+        return $body;
     }
 }
