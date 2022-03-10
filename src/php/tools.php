@@ -121,6 +121,7 @@ class tools {
         $connexion = !isset($_SESSION['Login'])
             ? "<a href='$base/login'>Connexion</a>"
             : <<<END
+            <a href='$base/faireCommande'>Commander</a>
             <a href='$base/logout'>Se déconnecter</a>
             END;
 
@@ -156,6 +157,7 @@ class tools {
             <head>
                 <meta charset="UTF-8">
                 <link rel="stylesheet" href="$base/style/indexStyle.css">
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
                 <title>$title</title>
                 $style
             </head>

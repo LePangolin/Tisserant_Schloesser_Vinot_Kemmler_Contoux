@@ -189,7 +189,7 @@ class VueUtilisateur{
                     poidsTotal = 0;    
                     poidsTotal += objet.allo.poids * objet.quantity;
                     console.log(poidsTotal);
-                    panierDisplay += `<li> Titre : \${objet.allo.titre} | Quantité : \${objet.quantity} | Poids : \${objet.allo.poids * objet.quantity} <li/>`
+                    panierDisplay += `<li> Titre : \${objet.allo.titre} | Quantité : \${objet.quantity} | Poids : \${objet.allo.poids * objet.quantity} </li>`
                 })
                 panierDisplay += "</ul>";
                 document.getElementById("cart").innerHTML = panierDisplay;
