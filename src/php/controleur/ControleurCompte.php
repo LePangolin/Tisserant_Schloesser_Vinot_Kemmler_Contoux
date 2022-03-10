@@ -29,7 +29,7 @@ class ControleurCompte
      * @param array $args
      */
     private function creerCompteInBDD(array $args) : void{
-        $c = new utilisateur();
+        $c = new Compte();
         $c->Login = filter_var($args['Login'], FILTER_SANITIZE_STRING);
         $c->Mdp = password_hash(filter_var($args['Mdp'], FILTER_SANITIZE_STRING), PASSWORD_DEFAULT);
         $c->Mail = filter_var($args['Mail'], FILTER_SANITIZE_EMAIL);
@@ -44,7 +44,7 @@ class ControleurCompte
      * @return bool
      */
     private function loginValide( string $login) : bool{
-        $res =  utilisateur::where('login', '=', $login)->get();
+        $res =  Compte::where('login', '=', $login)->get();
         $r = $res->count();
         if ($r==0) return true;
         else return false;
