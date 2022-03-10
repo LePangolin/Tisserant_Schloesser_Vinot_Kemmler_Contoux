@@ -117,7 +117,7 @@ class tools {
      * @return string
      */
     public static function getHtml(string $from, string $htmlPage, string $title, string $notif, string $content, array $notifParams, string $base): string { 
-        $style = $from != "" ? "<link rel='stylesheet' href='$base/src/style/$from'>": "";
+        $style = $from != "" ? "<link rel='stylesheet' href='$base/style/$from'>": "";
         $connexion = !isset($_SESSION['username'])
             ? "<a href='$base/login'>Connexion</a>"
             : <<<END
@@ -155,11 +155,11 @@ class tools {
 
 
         $html = $htmlPage != "" ? self::insertIntoBody($htmlPage, $nav.
-            "<link rel=\"stylesheet\" href=\"$base/src/style/indexStyle.css\">") : <<<END
+            "<link rel=\"stylesheet\" href=\"$base/style/indexStyle.css\">") : <<<END
             <!DOCTYPE html> <html lang="fr">
             <head>
                 <meta charset="UTF-8">
-                <link rel="stylesheet" href="$base/src/style/indexStyle.css">
+                <link rel="stylesheet" href="$base/style/indexStyle.css">
                 <title>$title</title>
                 $style
             </head>
