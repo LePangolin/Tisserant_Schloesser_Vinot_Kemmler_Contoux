@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commande</title>
+    <link rel="stylesheet" href="../../style/commande.css">
+</head>
+<body>
+
+    <div id="form-outer">
+        <form id="survey-form" action="">
+            <div class="rowTab">
+                <div>
+                    <select id="dropdown" name="taille" class="dropdown">
+                        <option disabled selected value>Taille de ta box</option>
+                        <option value="petite">Petite</option>
+                        <option value="moyenne">Moyenne</option>
+                        <option value="grande">Grande</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="rowTab">
+                <div class="labels">
+                    <label for="comments">Un message à ajouter ?</label>
+                </div>
+                <div class="rigtTab">
+                    <textarea id="comments" class="input-field" style="height:50px; resize:vertical;" placeholder="je sais pas"></textarea>
+                </div>
+            </div>
+
+
+            <div class="baseColor">
+                <label for="Color">Primary Color: </label>
+                <input  id="Color" type="color" name="couleur" value="#09091B">
+            </div>
+
+            <div class="rowTab">
+                <div class="labels">
+                    <label for="destinaire">Un message à ajouter ?</label>
+                </div>
+
+                <div>
+                    <input id="destinaire" class="input-field" type="text" placeholder="Adresse"/>
+                </div>
+            </div>
+
+            <button id="submit" type="submit">Envoi !</button>
+        </form>
+    </div>
+
+    <script>
+
+    </script>
+</body>
+</html>

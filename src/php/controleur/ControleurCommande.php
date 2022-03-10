@@ -8,6 +8,9 @@ namespace custumbox\php\controleur;
 use custumbox\php\Modele\Boite;
 use custumbox\php\Modele\Commande;
 use custumbox\php\Modele\Produit;
+use custumbox\php\tools;
+use custumbox\php\Vue\VueUtilisateur;
+use http\Message\Body;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Container;
 use Slim\Http\Request;
@@ -20,15 +23,17 @@ class ControleurCommande
 {
     // ATTRIBUTS
     private $c;
+    const COMMANDE = "commande";
 
     // CONSTRUCTEUR
     public function __construct(Container $container) {
         $this->c = $container;
     }
+    /*
     public function creerCommande(Request $rq,Response $rs,array $args): Response {
         $container = $this->c;
         $base = $rq->getUri()->getBasePath();
-        $route_uri = $container->router->pathFor();
+        $route_uri = $container->router->pathFor('createCommande', $args);
         $url = $base . $route_uri;
         $content = $rq->getParsedBody();
         $nomBoite=filter_var($content['boite'],FILTER_SANITIZE_STRING);
@@ -58,6 +63,23 @@ class ControleurCommande
             }
             $rs->getBody()->write("Ajout de la commande");
         }
+        return $rs;
+    }
+    */
+
+
+    public function enregistrerCommande(Request $rq,Response $rs,array $args): Response {
+        $container = $this->c;
+        $base = $rq->getUri()->getBasePath();
+        $route_uri = $container->router->pathFor("faireCommande",$args);
+        $url = $base . $route_uri;
+        $notif = tools::prepareNotif($rq);
+        $listeProduit = Produit::get();
+
+
+        $vue = new VueUtilisateur($listeProduit,ControleurCommande::COMMANDE,$notif,$base);
+        $rs->getBody()->write($vue->render());
+
         return $rs;
     }
 }

@@ -3,6 +3,7 @@
 namespace custumbox\php\Vue;
 
 use custumbox\php\controleur\ControleurAffichage;
+use custumbox\php\controleur\ControleurCommande;
 use custumbox\php\controleur\ControleurProduit;
 use custumbox\php\Modele\Produit;
 use custumbox\php\tools;
@@ -49,6 +50,168 @@ class VueUtilisateur{
         return $body;
     }
 
+
+    private function home(){
+        $file = "./src/html/index.html";
+        return file_get_contents($file);
+    }
+    private function formulaireCommande() {
+
+        $listeProduits = $this->tab;
+        $produits = "";
+        foreach($this->tab as $p){
+            $produits .= " <option value='$p->titre'>$p->titre</option>";
+        }
+
+
+
+        $body =  <<<END
+        <div id="form-outer"> 
+        <form id="survey-form" action="/">
+            <div class="rowTab">
+                <div>
+                    <select id="dropdown" name="taille" class="dropdown" defaultValue>
+                        <option disabled selected value>Taille de ta box</option>
+                        <option selected value="petite">Petite</option>
+                        <option value="moyenne">Moyenne</option>
+                        <option value="grande">Grande</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="rowTab">
+                <div class="labels">
+                    <label for="comments">Un message à ajouter ?</label>
+                </div>
+                <div class="rigtTab">
+                    <textarea id="comments" class="input-field" style="height:50px; resize:vertical;" placeholder="je sais pas"></textarea>
+                </div>
+            </div>
+
+
+            <div class="baseColor">
+                <label for="Color">Primary Color: </label>
+                <input  id="Color" type="color" name="couleur" value="#09091B">
+            </div>
+
+            <div class="rowTab">
+                <div class="labels">
+                    <label for="destinaire">Un message à ajouter ?</label>
+                </div>
+
+                <div>
+                    <input id="destinaire" class="input-field" type="text" placeholder="Adresse"/>
+                </div>
+            </div>
+            
+            <input id="contenu-cart" style="display: none;" type="text" value=""/> 
+
+            <button id="submit" type="submit">Envoi !</button>
+            
+            <div class="rowTab">
+                <div>
+                    <select id="dropdown-products" name="produits" class="dropdown">
+                        <option disabled selected value>Tout nos produits</option>
+                        $produits
+                    </select>
+                </div>
+            </div>
+        </form>
+        <div id="produitSelect"></div>
+        
+        <div id="cart">
+            
+        </div>
+    </div>
+    
+    
+    <script> 
+    let panier = [];
+    let produit;
+    let poidsTotal = 0;
+    let produitDisplay = document.getElementById('produitSelect');
+    document.getElementById('dropdown-products').addEventListener('change', (event) => {
+        console.log(event.target.value);
+        let html = "";
+        let produitsAct = event.target.value;
+        let produits = $listeProduits;
+        
+        console.log(produits);
+        produits.forEach( elem => {
+            if (elem.titre === produitsAct) {
+                produit = elem;
+                html = `
+                <div class="rowTab">
+                    <p> \${elem.titre} <p/>
+                    <br>
+                    <img src="./assets/images/produits/\${elem.id}.jpg" alt="\${elem.titre}">
+                    <p> \${elem.description}<p/>
+                    <p> Poids : \${elem.poids} kg <p/>
+                    <br>
+                    <button id="boutonAjout" >Ajouter au panier<button/>  
+                <div/>
+                    `;
+                
+            }
+        })
+        produitDisplay.innerHTML = html;
+        document.getElementById('boutonAjout').addEventListener('click', (e) => {
+            console.log(produit);
+            let taille = document.getElementById("dropdown");
+            let poidsLimite = 0;
+            switch (taille.value) {
+              case 'petite' :
+                 poidsLimite = 0.7;
+                  break;
+              case 'moyenne' :
+                 poidsLimite = 1.5;
+                  break;
+              case 'grande' :
+                 poidsLimite = 3.2;
+                  break;
+            }
+            console.log("Poid limite"+poidsLimite);
+            if (poidsTotal + produit.poids > poidsLimite) {
+                window.alert('le poids total de la box est dépassé *!')
+            }else {
+                let objetProduit = null;
+                const qty = 1;
+                panier.forEach(obj => {
+                    console.log(obj.allo);
+                    if (obj.allo.titre === produit.titre) {
+                        objetProduit = obj;
+                    } 
+                });
+                   
+                if (objetProduit !== null) {
+                    objetProduit.quantity++;
+                } else {
+                    panier.push({allo : produit, quantity : qty})
+                }
+                document.getElementById("contenu-cart").value = JSON.stringify(panier);
+            }
+            
+            console.log(panier);
+            let panierDisplay = "<ul>";
+            panier.forEach(objet => {
+                poidsTotal = 0;    
+                poidsTotal += objet.allo.poids * objet.quantity;
+                console.log(poidsTotal);
+                panierDisplay += `<li> Titre : \${objet.allo.titre} | Quantité : \${objet.quantity} | Poids : \${objet.allo.poids * objet.quantity} <li/>`
+            })
+            panierDisplay += "</ul>";
+            document.getElementById("cart").innerHTML = panierDisplay;
+            
+        })
+        
+    });
+    </script>
+    
+    END;
+
+        return $body;
+    }
+
     public function render(): string {
         $from = "";
         $htmlPage = "";
@@ -70,12 +233,14 @@ class VueUtilisateur{
                 $title  = "Tout les produits disponible";
                 break;
             }
+            case ControleurCommande::COMMANDE : {
+                $content = $this->formulaireCommande();
+                $title = "Création de votre commande";
+                $from = "commande.css";
+                break;
+            }
         }
         return tools::getHtml($from, $htmlPage, $title, $notif, $content, $this->notif, $this->base);
     }
 
-    private function home(){
-        $file = "./src/html/index.html";
-        return file_get_contents($file);
-    }
 }
