@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace custumbox\php\Vue;
 
 use custumbox\php\controleur\ControleurAffichage;
+use custumbox\php\controleur\ControleurCommande;
 use custumbox\php\controleur\ControleurProduit;
 use custumbox\php\Modele\Produit;
 use custumbox\php\tools;
@@ -55,7 +56,10 @@ class VueUtilisateur{
         }
         return $body;
     }
-
+    private function creerCommande():string{
+        $file="mettreformulairehtml";
+        return file_get_contents($file);
+    }
     public function render(): string {
         $from = "";
         $htmlPage = "";
@@ -75,6 +79,11 @@ class VueUtilisateur{
             case ControleurProduit::ALL_PRODUCTS : {
                 $content = $this->affichageProduit();
                 $title  = "Tout les produits disponible";
+                break;
+            }
+            case ControleurCommande::COMMANDE_FORM_CREATE :{
+                $content =$this->creerCommande();
+                $title = 'Création d\'une commande';
                 break;
             }
         }
