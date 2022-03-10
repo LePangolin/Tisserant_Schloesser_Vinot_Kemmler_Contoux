@@ -116,7 +116,7 @@ class tools {
      * @param string $base
      * @return string
      */
-    public static function getHtml(string $from, string $htmlPage, string $title, string $notif, string $content, array $notifParams, string $base): string {
+    public static function getHtml(string $from, string $htmlPage, string $title, string $notif, string $content, array $notifParams, string $base): string { 
         $style = $from != "" ? "<link rel='stylesheet' href='$base/src/style/$from'>": "";
         $connexion = !isset($_SESSION['username'])
             ? "<a href='$base/login'>Connexion</a>"
