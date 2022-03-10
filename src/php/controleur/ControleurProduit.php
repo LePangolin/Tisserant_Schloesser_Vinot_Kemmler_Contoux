@@ -7,6 +7,7 @@ namespace custumbox\php\controleur;
 // IMPORTS
 use Conf;
 use custumbox\php\Modele\Categorie;
+use custumbox\php\Modele\Commande;
 use custumbox\php\Modele\Produit;
 use custumbox\php\tools;
 use custumbox\php\Vue\VueUtilisateur;
@@ -22,6 +23,7 @@ class ControleurProduit{
     const SEARCH_RESULTS = "search_results";
     const ALL_PRODUCTS =  "all_products";
     const CREATE_PRODUCTS= "create_products";
+    const COMMANDES = "commandes";
 
     /**
      * @var object container
@@ -35,6 +37,23 @@ class ControleurProduit{
     public function __construct(object $c) {
         $this->c = $c;
     }
+
+    public function commandes(Request $rq, Response $rs, array $args): Response {
+        $container = $this->c;
+        $base = $rq->getUri()->getBasePath();
+        $route_uri = $container->router->pathFor('commandes', $args);
+        $url = $base . $route_uri;
+
+        $notif = tools::prepareNotif($rq);
+
+        $commandes = Commande::get();
+
+        $v = new VueUtilisateur($commandes, ControleurProduit::COMMANDES, $notif, $base);
+
+        $rs->getBody()->write($v->render());
+        return $rs;
+    }
+
 
     public function searchProducts(Request $rq, Response $rs, array $args): Response {
         $container = $this->c;

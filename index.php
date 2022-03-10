@@ -34,6 +34,12 @@ $app->get('/produits',
         return $controller->searchProducts($rq, $rs, $args);
     })->setName('searchProducts');
 
+$app->get('/commandes',
+    function (Request $rq, Response $rs, array $args): Response {
+        $controller = new ControleurProduit($this);
+        return $controller->commandes($rq, $rs, $args);
+    })->setName('commandes');
+
 
 $app->get('[/]',
 function(Request $rq, Response $rs, array $args): Response{

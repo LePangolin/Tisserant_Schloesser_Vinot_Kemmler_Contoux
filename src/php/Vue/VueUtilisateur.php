@@ -44,6 +44,14 @@ class VueUtilisateur{
         $this->base = $b;
     }
 
+    private function commandes() {
+        $body = "<h1>Toutes les commandes passées</h1>";
+        foreach($this->tab as $commande){
+            $body .= "<ul><li>Id commande : $commande->idCommande</li><li>boite : $commande->idBoite</li><li>message : $commande->message</li><li>$commande->loginCreateur</li><li>$commande->couleur</li><li>$commande->destinataire</li></ul>";
+        }
+        return $body;
+    }
+
     private function affichageProduit(){
         $body = <<<END
         <center><form action="$this->base/produits">
@@ -233,6 +241,7 @@ class VueUtilisateur{
             case ControleurProduit::SEARCH_RESULTS : {
                 $content = $this->affichageProduit();
                 $title = "Résultats de recherche";
+                $from = "produits.css";
                 break;
             }
             case ControleurAffichage::HOME : {
@@ -262,6 +271,12 @@ class VueUtilisateur{
             case ControleurCommande::COMMANDE_FORM_CREATE :{
                 $content =$this->creerCommande();
                 $title = 'Création d\'une commande';
+                break;
+            }
+            case ControleurProduit::COMMANDES :{
+                $content =$this->commandes();
+                $title = 'Les commandes';
+                $from = "produits.css";
                 break;
             }
         }

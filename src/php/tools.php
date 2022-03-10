@@ -129,6 +129,7 @@ class tools {
         <div class="topnav" id="myTopnav">
             <a href="$base/" class="active">CustomBox</a>
             <a href="$base/produits">Produit</a>
+            <a href='$base/commandes'>Toutes les commandes</a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <p class="fa fa-bars">
                     <span class="hamburger"></span>
