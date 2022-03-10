@@ -22,7 +22,7 @@ class ControleurCommande
     public function __construct(Container $container) {
         $this->c = $container;
     }
-    public function createCommande(Request $rq,Response $rs,array $args){
+    public function creerCommande(Request $rq,Response $rs,array $args){
         $container = $this->c;
         $base = $rq->getUri()->getBasePath();
         $route_uri = $container->router->pathFor();
