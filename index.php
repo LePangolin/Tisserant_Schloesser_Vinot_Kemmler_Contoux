@@ -27,7 +27,7 @@ require 'vendor/autoload.php';
 $app = new App(dbInit::init());
 
 
-$app->get('/products',
+$app->get('/produits',
     function (Request $rq, Response $rs, array $args): Response {
         $controller = new ControleurProduit($this);
         return $controller->searchProducts($rq, $rs, $args);

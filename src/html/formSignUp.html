@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="Style/styleLogin.css">
+</head>
+<body>
+<div class="center">
+  <h1>Sign Up</h1>
+  <form action="./signupConfirm" method="post" enctype="multipart/form-data">
+    <div class="txt_field">
+      <input type="text" required id="username" name="username">
+      <span></span>
+      <label>Username</label>
+    </div>
+    <div class="txt_field">
+      <input type="email" required id="email" name="email">
+      <span></span>
+      <label>Email</label>
+    </div>
+    <div class="txt_field">
+      <input type="password" required id="password" name="password">
+      <span></span>
+      <label>Password</label>
+    </div>
+    <div class="txt_field">
+      <input type="password" required id="password_confirm" name="password_confirm">
+      <span></span>
+      <label>Confirm password</label>
+    </div>
+    <div class="show">
+      <input type="checkbox" onclick="showOrNot()"> Show password
+    </div>
+    <input type="submit" value="Register">
+    <div class="signup_link">
+      Already have an account ? <a href="./login">login</a>
+    </div>
+    <div class="signup_link">
+      Want to access a List via a token ? <a href="./token">Access Here</a>
+    </div>
+  </form>
+</div>
+
+
+<script>
+  function showOrNot() {
+    let pass = document.getElementById("password");
+    let passConfirm = document.getElementById("password_confirm");
+    if (pass.type === "password" && pass.type === "password") {
+      pass.type = "text";
+      passConfirm.type = "text";
+    } else {
+      pass.type = "password";
+      passConfirm.type = "password";
+    }
+  }
+</script>
+
+</body>
+</html>
