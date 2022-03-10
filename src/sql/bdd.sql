@@ -67,6 +67,19 @@ INSERT INTO `categorie` (`id`, `nom`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `utilisateur`
+--
+
+CREATE TABLE `utilisateur` (
+                               `Login` varchar(255) NOT NULL,
+                               `Mdp` varchar(255) NOT NULL,
+                               `Telephone` varchar(11) NOT NULL,
+                               `Mail` varchar(255) NOT NULL,
+                               `Role` varchar(255),
+                               PRIMARY KEY (`Login`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
 -- Structure de la table `commande`
 --
 
@@ -74,13 +87,15 @@ CREATE TABLE `commande` (
                             `IDcommande` int(255) NOT NULL,
                             `IDboite` int(5) NOT NULL,
                             `Message` text NOT NULL,
-                            `ICcreateur` int(5) NOT NULL,
+                            `LogincCreateur` varchar(255) NOT NULL,
                             `Couleur` varchar(50) NOT NULL,
                             `Destinataire` text NOT NULL,
                             `Lien` varchar(256) NOT NULL,
                             PRIMARY KEY (`IDcommande`),
-                            FOREIGN KEY (`IDboite`) REFERENCES `boite`(`id`)
+                            FOREIGN KEY (`IDboite`) REFERENCES `boite`(`id`),
+                            FOREIGN KEY (`LogincCreateur`) REFERENCES `utilisateur`(`Login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- --------------------------------------------------------
 
