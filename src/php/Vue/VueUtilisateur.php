@@ -59,12 +59,15 @@ class VueUtilisateur{
             case ControleurProduit::SEARCH_RESULTS : {
                 $content = $this->affichageProduit();
                 $title = "Résultats de recherche";
-                //$from = 'indexStyle.css';
                 break;
             }
             case ControleurAffichage::HOME : {
                 $htmlPage = $this->home();
-                //$from = "indexStyle.css"; 
+                break;
+            }
+            case ControleurProduit::ALL_PRODUCTS : {
+                $content = $this->affichageProduit();
+                $title  = "Tout les produits disponible";
                 break;
             }
         }

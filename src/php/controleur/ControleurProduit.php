@@ -17,6 +17,7 @@ class ControleurProduit{
      * Constantes
      */
     const SEARCH_RESULTS = "search_results";
+    const ALL_PRODUCTS =  "all_products";
 
     /**
      * @var object container
@@ -37,10 +38,16 @@ class ControleurProduit{
         $route_uri = $container->router->pathFor('searchProducts', $args);
         $url = $base . $route_uri;
 
-        $search = $rq->getQueryParams()["q"];
+    
         if (!isset($rq->getQueryParams()['q'])) {
-            $rs->getBody()->write("ERREUR, il faut q=.... dans l'url");
+            $products = Produit::get();
+            $notif = tools::prepareNotif($rq);
+
+            $v = new VueUtilisateur($products, ControleurProduit::ALL_PRODUCTS, $notif, $base);
+
+            $rs->getBody()->write($v->render());
         } else {
+            $search = $rq->getQueryParams()["q"];
             $products = Produit::where([
                 ['titre', 'LIKE', "%$search%"]
             ])->get();
