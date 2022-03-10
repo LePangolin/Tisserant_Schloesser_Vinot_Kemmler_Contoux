@@ -77,9 +77,9 @@ class ControleurCompte {
             $MotDePasse = password_hash($MotDePasse, PASSWORD_DEFAULT, $options);
             $newUser = new Compte();
             $newUser->Login=$NomUtilisateur;
-            $newUser->sel=$MotDePasse;
+            $newUser->Mdp=$MotDePasse;
             $newUser->Mail=$Email;
-            $newUser->Telephone = filter_var($args['Telephone'], FILTER_SANITIZE_STRING);
+            $newUser->Telephone = filter_var($content['phone'], FILTER_SANITIZE_STRING);
             $newUser->Niveau_acces=1;
             $newUser->save();
 
@@ -179,7 +179,7 @@ class ControleurCompte {
 
         if ($userNameExist == 1) {
             $GetUser=Compte::where("Login","=",$NomUtilisateur)->first();
-            $HashedPassword=$GetUser->password;
+            $HashedPassword=$GetUser->Mdp;
             if (password_verify($MotDePasse,$HashedPassword)) {
                 $user = Compte::where('Login', '=', $NomUtilisateur)->first();
 

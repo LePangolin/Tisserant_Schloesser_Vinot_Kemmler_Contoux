@@ -2,17 +2,17 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Sign Up</title>
-  <link rel="stylesheet" href="Style/styleLogin.css">
+  <title>Inscription</title>
+  <link rel="stylesheet" href="style/indexStyle.css">
 </head>
 <body>
 <div class="center">
-  <h1>Sign Up</h1>
+  <h1>Inscription</h1>
   <form action="./signupConfirm" method="post" enctype="multipart/form-data">
     <div class="txt_field">
       <input type="text" required id="username" name="username">
       <span></span>
-      <label>Username</label>
+      <label>Nom d'utilisateur</label>
     </div>
     <div class="txt_field">
       <input type="email" required id="email" name="email">
@@ -27,22 +27,19 @@
     <div class="txt_field">
       <input type="password" required id="password" name="password">
       <span></span>
-      <label>Password</label>
+      <label>Mot de passe</label>
     </div>
     <div class="txt_field">
       <input type="password" required id="password_confirm" name="password_confirm">
       <span></span>
-      <label>Confirm password</label>
+      <label>Confirmation mot de passe</label>
     </div>
     <div class="show">
-      <input type="checkbox" onclick="showOrNot()"> Show password
+      <input type="checkbox" onclick="showOrNot()"> Voir le mot de passe
     </div>
-    <input type="submit" value="Register">
+    <input type="submit" value="S'inscrire">
     <div class="signup_link">
-      Already have an account ? <a href="./login">login</a>
-    </div>
-    <div class="signup_link">
-      Want to access a List via a token ? <a href="./token">Access Here</a>
+      Vous avez déjà un compte ? <a href="./login">Connectez-vous.</a>
     </div>
   </form>
 </div>

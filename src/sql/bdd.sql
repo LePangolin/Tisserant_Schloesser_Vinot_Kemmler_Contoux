@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 4.9.5deb2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le : jeu. 10 mars 2022 à 11:49
--- Version du serveur : 10.4.22-MariaDB
--- Version de PHP : 8.1.2
+-- Hôte : localhost:3306
+-- Généré le : jeu. 10 mars 2022 à 14:10
+-- Version du serveur :  10.3.34-MariaDB-0ubuntu0.20.04.1
+-- Version de PHP : 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `custombox`
+-- Base de données : `customBox`
 --
 
 -- --------------------------------------------------------
@@ -28,9 +29,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `boite` (
-                         `id` int(11) NOT NULL,
-                         `taille` text NOT NULL,
-                         `poidsmax` float NOT NULL
+  `id` int(11) NOT NULL,
+  `taille` text NOT NULL,
+  `poidsmax` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -38,9 +39,9 @@ CREATE TABLE `boite` (
 --
 
 INSERT INTO `boite` (`id`, `taille`, `poidsmax`) VALUES
-                                                     (1, 'petite', 0.7),
-                                                     (2, 'moyenne', 1.5),
-                                                     (3, 'grande', 3.2);
+(1, 'petite', 0.7),
+(2, 'moyenne', 1.5),
+(3, 'grande', 3.2);
 
 -- --------------------------------------------------------
 
@@ -49,8 +50,8 @@ INSERT INTO `boite` (`id`, `taille`, `poidsmax`) VALUES
 --
 
 CREATE TABLE `categorie` (
-                             `id` int(11) NOT NULL,
-                             `nom` text NOT NULL
+  `id` int(11) NOT NULL,
+  `nom` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -58,57 +59,38 @@ CREATE TABLE `categorie` (
 --
 
 INSERT INTO `categorie` (`id`, `nom`) VALUES
-                                          (1, 'Beauté'),
-                                          (2, 'Bijoux'),
-                                          (3, 'Décoration'),
-                                          (4, 'Produit ménager'),
-                                          (5, 'Upcycling');
+(1, 'Beauté'),
+(2, 'Bijoux'),
+(3, 'Décoration'),
+(4, 'Produit ménager'),
+(5, 'Upcycling');
 
 -- --------------------------------------------------------
-
---
--- Structure de la table `utilisateur`
---
-
-CREATE TABLE `utilisateur` (
-                               `Login` varchar(255) NOT NULL,
-                               `Mdp` varchar(255) NOT NULL,
-                               `Telephone` varchar(11) NOT NULL,
-                               `Mail` varchar(255) NOT NULL,
-                               `Niveau_acces` int(1),
-                               PRIMARY KEY (`Login`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Structure de la table `commande`
 --
 
 CREATE TABLE `commande` (
-                            `IDcommande` int(255) NOT NULL,
-                            `IDboite` int(5) NOT NULL,
-                            `Message` text NOT NULL,
-                            `LogincCreateur` varchar(255) NOT NULL,
-                            `Couleur` varchar(50) NOT NULL,
-                            `Destinataire` text NOT NULL,
-                            `Lien` varchar(256) NOT NULL,
-                            PRIMARY KEY (`IDcommande`),
-                            FOREIGN KEY (`IDboite`) REFERENCES `boite`(`id`),
-                            FOREIGN KEY (`LogincCreateur`) REFERENCES `utilisateur`(`Login`)
+  `idCommande` int(5) NOT NULL,
+  `idBoite` int(5) NOT NULL,
+  `message` text NOT NULL,
+  `loginCreateur` varchar(256) NOT NULL,
+  `couleur` varchar(50) NOT NULL,
+  `destinataire` text NOT NULL,
+  `lien` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `listecommande`
+-- Structure de la table `liste_commande`
 --
 
-CREATE TABLE `listecommande` (
-                                 `IDcommande` int(255) NOT NULL,
-                                 `IDproduit` int(11) NOT NULL,
-                                 PRIMARY KEY (`IDcommande`,`IDproduit`),
-                                 FOREIGN KEY (`IDcommande`) REFERENCES `commande`(`IDcommande`),
-                                 FOREIGN KEY (`IDproduit`) REFERENCES `produit`(`id`)
+CREATE TABLE `liste_commande` (
+  `idCommande` int(5) NOT NULL,
+  `idProduit` int(11) NOT NULL,
+  `qte` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -118,11 +100,11 @@ CREATE TABLE `listecommande` (
 --
 
 CREATE TABLE `produit` (
-                           `id` int(11) NOT NULL,
-                           `titre` text NOT NULL,
-                           `description` text NOT NULL,
-                           `categorie` int(11) NOT NULL,
-                           `poids` float NOT NULL
+  `id` int(11) NOT NULL,
+  `titre` text NOT NULL,
+  `description` text NOT NULL,
+  `categorie` int(11) NOT NULL,
+  `poids` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -130,11 +112,11 @@ CREATE TABLE `produit` (
 --
 
 INSERT INTO `produit` (`id`, `titre`, `description`, `categorie`, `poids`) VALUES
-                                                                               (1, 'Crème', 'Une crème hydratante et parfumée qui rend la peau douce', 1, 0.3),
-                                                                               (2, 'Savon', 'Un savon qui respecte la peau', 1, 0.2),
-                                                                               (3, 'Shampoing', 'Shampoing doux et démêlant', 1, 0.4),
-                                                                               (4, 'Bracelet', 'Un bracelet en tissu aux couleurs plaisantes', 2, 0.15),
-                                                                               (5, 'Tableau', 'Aquarelle ou peinture à l\'huile', 3, 0.6),
+(1, 'Crème', 'Une crème hydratante et parfumée qui rend la peau douce', 1, 0.3),
+(2, 'Savon', 'Un savon qui respecte la peau', 1, 0.2),
+(3, 'Shampoing', 'Shampoing doux et démêlant', 1, 0.4),
+(4, 'Bracelet', 'Un bracelet en tissu aux couleurs plaisantes', 2, 0.15),
+(5, 'Tableau', 'Aquarelle ou peinture à l\'huile', 3, 0.6),
 (6, 'Essuie-main', 'Utile au quotidien', 4, 0.45),
 (7, 'Gel', 'Gel hydroalcoolique et Antibactérien', 4, 0.25),
 (8, 'Masque', 'masque chirurgical jetable categorie 1', 4, 0.35),
@@ -144,72 +126,51 @@ INSERT INTO `produit` (`id`, `titre`, `description`, `categorie`, `poids`) VALUE
 (12, 'Surprise', 'Pochette surprise pour faire plaisir aux petits et grands', 5, 0.7),
 (13, 'T-shirt', 'T-shirt peint à la main et avec pochoir', 5, 0.32);
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `utilisateur`
+--
+
+CREATE TABLE `utilisateur` (
+  `Login` varchar(256) NOT NULL,
+  `Mdp` varchar(256) NOT NULL,
+  `Telephone` varchar(11) NOT NULL,
+  `Mail` varchar(256) NOT NULL,
+  `Niveau_acces` int(10) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Index pour les tables déchargées
 --
 
 --
--- Index pour la table `boite`
---
-ALTER TABLE `boite`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `categorie`
---
-ALTER TABLE `categorie`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `commande`
 --
 ALTER TABLE `commande`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`idCommande`);
 
 --
--- Index pour la table `produit`
+-- Index pour la table `liste_commande`
 --
-ALTER TABLE `produit`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `categorie` (`categorie`);
+ALTER TABLE `liste_commande`
+  ADD PRIMARY KEY (`idCommande`,`idProduit`,`qte`);
+
+--
+-- Index pour la table `utilisateur`
+--
+ALTER TABLE `utilisateur`
+  ADD PRIMARY KEY (`Login`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT pour la table `boite`
---
-ALTER TABLE `boite`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT pour la table `categorie`
---
-ALTER TABLE `categorie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `produit`
---
-ALTER TABLE `produit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `produit`
---
-ALTER TABLE `produit`
-  ADD CONSTRAINT `produit_ibfk_1` FOREIGN KEY (`categorie`) REFERENCES `categorie` (`id`);
+  MODIFY `idCommande` int(5) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
