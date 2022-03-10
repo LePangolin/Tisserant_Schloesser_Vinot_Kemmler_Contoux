@@ -23,6 +23,8 @@
   http://cityxplorer.streamlor.io/crazyCharlyDay/login
 * Création d'un compte
   http://cityxplorer.streamlor.io/crazyCharlyDay/signUp
+* Affichage des commandes
+   http://cityxplorer.streamlor.io/crazyCharlyDay/commandes 
 
 # Fonctionnalités débutées
 * Création d'un produit
