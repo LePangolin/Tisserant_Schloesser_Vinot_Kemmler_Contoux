@@ -1,6 +1,6 @@
 <?php
 
-namespace CrazyCharlyDay;
+namespace custumBox;
 
 use Illuminate\Database\Capsule\Manager as DB;
 use Slim\Container;
