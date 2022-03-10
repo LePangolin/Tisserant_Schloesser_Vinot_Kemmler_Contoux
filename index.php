@@ -50,7 +50,8 @@ function (Request $rq, Response $rs, array $args):Response{
 
 $app->get('/creerPost[/]',
 function (Request $rq,Response $rs, array $args):Response{
-
+    $controller=new ControleurCommande($this);
+    return $controller->creerCommande($rq,$rs,$args);
 });
 /*************************
  * connexion
