@@ -1,5 +1,5 @@
 <?php
-namespace custumbox\Modele;
+namespace custumbox\php\Modele;
 
 use Illuminate\Database\Eloquent\Model;
 
