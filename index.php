@@ -35,7 +35,7 @@ $app->get('/produits',
     })->setName('searchProducts');
 
 
-$app->get('[/]', 
+$app->get('[/]',
 function(Request $rq, Response $rs, array $args): Response{
     $controller = new ControleurAffichage($this);
     return $controller->afficherHome($rq,$rs,$args);
@@ -56,6 +56,19 @@ function (Request $rq,Response $rs, array $args):Response{
 })->setName("nouvelleCommande");
 
 
+/************************
+ * produits
+ *************************/
+$app->get('/creerProduit',function (Request $rq,Response $rs, array $args):Response{
+    $controller=new ControleurProduit($this);
+    return $controller->creerProduit($rq,$rs,$args);
+})->setName("creerProduit");
+
+$app->post('/nouveauProduit[/]',
+    function (Request $rq,Response $rs, array $args):Response{
+        $controller=new ControleurProduit($this);
+        return $controller->constructionProduit($rq,$rs,$args);
+    })->setName("nouveauProduit");
 
 
 /*************************
@@ -89,6 +102,8 @@ $app->get('/logout',
         return $controller->logout($rq, $rs, $args);
 
     })->setName("logout");
+
+
 
 
 /**
