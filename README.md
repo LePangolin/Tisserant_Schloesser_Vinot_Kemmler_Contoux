@@ -1,1 +1,6 @@
-# Tisserant_Schloesser_Vinot_Kemmler_Contoux
+# Membres du groupe
+* Tisserant
+* Schloesser
+* Vinot
+* Kemmler
+* Contoux
