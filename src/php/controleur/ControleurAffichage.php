@@ -11,7 +11,7 @@ use Slim\Container;
  * Classe controleurAffichage,
  * Controleur sur l'affichage des produits
  */
-class controleurAffichage
+class ControleurAffichage
 {
     // ATTRIBUTS
     private $container;
