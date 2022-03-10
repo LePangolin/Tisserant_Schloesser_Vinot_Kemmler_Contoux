@@ -121,6 +121,7 @@ class tools {
         $connexion = !isset($_SESSION['Login'])
             ? "<a href='$base/login'>Connexion</a>"
             : <<<END
+            <a href='$base/faireCommande'>Commander</a>
             <a href='$base/logout'>Se déconnecter</a>
             END;
 
