@@ -7,7 +7,7 @@
 
 body {
     font-family: Lato, Helvetica, Arial, sans-serif;
-    background: #111E25;
+    background: #597b78 ;
 }
 
 .content {
@@ -30,13 +30,13 @@ body {
 
 .topnav {
     overflow: hidden;
-    background-color: #333;
+    background-color: #DDC484;
 }
 
 .topnav a {
     float: left;
     display: block;
-    color: #f2f2f2;
+    color: #000000;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -46,12 +46,12 @@ body {
 }
 
 .topnav a:hover {
-    background-color: #ddd;
+    background-color: #F2DCA4;
     color: black;
 }
 
 .topnav a.active {
-    background-color: #44907a;
+    background-color: #E77441 ;
     color: white;
 }
 
@@ -106,4 +106,44 @@ body {
 
 input {
     color: black;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+h1 {
+    font-family: Lucida Bright,Georgia,serif;
+    text-align:center;
+    color:#F2DCA4;
+}
+
+#desc{
+    font-family: Aileron Regular,serif;
+    text-align:center;
+    font-size: 1.2em;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-family: Lucida Bright,Georgia,serif;
+    background: #EAAD87;
+    text-align:center;
+}
+
+.fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+    opacity: 0.7;
 }
