@@ -63,7 +63,7 @@ class ControleurCommande {
                     $prod=Produit::where("name","=",$produit['nom']);
                     $CommandeToAdd->produits()->save($prod, ['qte'=>$produit['qte']]);
                 }
-                $notifMsg = urlencode("Liste créée !");
+                $notifMsg = urlencode("Commande créée !");
                 return $rs->withRedirect($base."/list/view?token=$CommandeToAdd->id&notif=$notifMsg");
             }
         }else{
