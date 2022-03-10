@@ -1,12 +1,12 @@
 <?php
 
-namespace custumbox\Vue;
+namespace custumbox\php\Vue;
 
-use custumbox\Modele\Categorie;
+use custumbox\Modele\Produit;
 use Slim\Container;
 use Slim\Http\Response;
 
-class VueAffichageProduit{
+class VueProduit{
     private $c;
 
     public function __construct(Container $c)
@@ -15,7 +15,10 @@ class VueAffichageProduit{
     }
 
     public function affichageProduit(Response $response){
-        $categ = Categorie::get();
-
+        $prod = Produit::get();
+        $body = "";
+        foreach($prod as $p){
+            
+        }
     }
 }
