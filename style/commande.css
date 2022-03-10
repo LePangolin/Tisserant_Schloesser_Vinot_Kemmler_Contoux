@@ -32,6 +32,9 @@ header
     margin-top: 10px;
     color: black;
 }
+label, p {
+    color: black;
+}
 .rightTab
 {
     display: inline-block;
@@ -59,7 +62,7 @@ header
 }
 #submit
 {
-    background-color: #59ace0;
+    background-color: #E77441;
     border-radius: 4px;
     color: white;
     font-size: 1em;
@@ -91,7 +94,7 @@ header
     position: relative;
     background-color: #333333;
     color: #f2f2f2;
-    border: #59ace0 solid 3px;
+    border: #E77441 solid 3px;
     padding: 10px;
 }
 @media screen and (max-width: 833px)
