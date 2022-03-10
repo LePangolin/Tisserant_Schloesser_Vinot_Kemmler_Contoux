@@ -42,10 +42,9 @@ class VueUtilisateur{
     }
 
     private function affichageProduit(){
-        $prod = Produit::get();
         $body = "";
-        foreach($prod as $p){
-            $body .= "Nom du produit : $p->titre,  Poids du produit : $p->poids  &nbsp; <img src=\"./assets/images/produits/$p->id.jpg\"></img> ";
+        foreach($this->tab as $p){
+            $body .= "Nom du produit : $p->titre, <br> Poids du produit : $p->poids, <br> Description : $p->description &nbsp; <br> <img src=\"./assets/images/produits/$p->id.jpg\"></img> <br /> ";
         }
         return $body;
     }
@@ -60,11 +59,12 @@ class VueUtilisateur{
             case ControleurProduit::SEARCH_RESULTS : {
                 $content = $this->affichageProduit();
                 $title = "Résultats de recherche";
-                $from = 'EditStyle.css';
+                //$from = 'indexStyle.css';
                 break;
             }
             case ControleurAffichage::HOME : {
-                $htmlPage = $this->home(); 
+                $htmlPage = $this->home();
+                //$from = "indexStyle.css"; 
                 break;
             }
         }

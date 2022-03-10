@@ -42,8 +42,7 @@ class ControleurProduit{
             $rs->getBody()->write("ERREUR, il faut q=.... dans l'url");
         } else {
             $products = Produit::where([
-                ['titre', 'LIKE', "%$search%"],
-                ['description', 'LIKE', "%$search%"]
+                ['titre', 'LIKE', "%$search%"]
             ])->get();
 
             $notif = tools::prepareNotif($rq);
