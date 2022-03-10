@@ -15,6 +15,7 @@ session_start();
 require_once __DIR__ . '/vendor/autoload.php';
 
 use custumbox\php\controleur\ControleurAffichage;
+use custumbox\php\controleur\ControleurCommande;
 use custumbox\php\controleur\ControleurProduit;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -38,7 +39,12 @@ function(Request $rq, Response $rs, array $args): Response{
     $controller = new ControleurAffichage($this);
     return $controller->afficherHome($rq,$rs,$args);
 })->setName("home");
+$app->post('/creerCommande[/]',
+function (Request $rq, Response $rs, array $args):Response{
+    $controlleur=new ControleurCommande($this);
+    return $controlleur->creerCommande($rq,$rs,$args);
 
+})->setName("createCommande");
 try {
     $app->run();
 } catch (Throwable $e) {

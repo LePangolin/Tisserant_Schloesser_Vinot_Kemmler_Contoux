@@ -6,9 +6,11 @@ namespace custumbox\php\controleur;
 
 // IMPORTS
 use custumbox\php\Modele\Boite;
-use custumbox\Modele\Commande;
+use custumbox\php\Modele\Commande;
 use custumbox\php\Modele\Produit;
+use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Container;
+use Slim\Http\Request;
 
 /**
  * Classe controleurAffichage,
@@ -23,7 +25,7 @@ class ControleurCommande
     public function __construct(Container $container) {
         $this->c = $container;
     }
-    public function creerCommande(Request $rq,Response $rs,array $args){
+    public function creerCommande(Request $rq,Response $rs,array $args): Response {
         $container = $this->c;
         $base = $rq->getUri()->getBasePath();
         $route_uri = $container->router->pathFor();
@@ -36,12 +38,11 @@ class ControleurCommande
         $destinaire=filter_var($content['destinataire'],FILTER_SANITIZE_STRING);
         $lien=$content['lien'];
         $produits=$content['produits'];
-
         $boite=Boite::where("taille","=",$nomBoite);
+
         if(is_null($boite)){
             echo ("Taille de la boite inconnu, veuillez contacter un administrateur");
         }else{
-
             $CommandeToAdd=new Commande();
             $CommandeToAdd->idBoite=$boite->id;
             $CommandeToAdd->Message=$message;
@@ -55,10 +56,8 @@ class ControleurCommande
                 $prod=Produit::where("name","=",$produit['nom']);
                 $CommandeToAdd->produits()->save($prod, ['qte'=>$produit['qte']]);
             }
-
-
+            $rs->getBody()->write("Ajout de la commande");
         }
-
-
+        return $rs;
     }
 }
