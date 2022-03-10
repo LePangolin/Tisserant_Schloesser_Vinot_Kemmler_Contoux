@@ -38,27 +38,20 @@ class ControleurProduit{
         $route_uri = $container->router->pathFor('searchProducts', $args);
         $url = $base . $route_uri;
 
+        $notif = tools::prepareNotif($rq);
     
         if (!isset($rq->getQueryParams()['q'])) {
             $products = Produit::get();
-            $notif = tools::prepareNotif($rq);
 
             $v = new VueUtilisateur($products, ControleurProduit::ALL_PRODUCTS, $notif, $base);
-
-            $rs->getBody()->write($v->render());
         } else {
             $search = $rq->getQueryParams()["q"];
-            $products = Produit::where([
-                ['titre', 'LIKE', "%$search%"]
-            ])->get();
-
-            $notif = tools::prepareNotif($rq);
+            $products = Produit::where('titre', 'LIKE', "%$search%")->get();
 
             $v = new VueUtilisateur($products, ControleurProduit::SEARCH_RESULTS, $notif, $base);
-
-            $rs->getBody()->write($v->render());
         }
 
+        $rs->getBody()->write($v->render());
         return $rs;
     }
 }

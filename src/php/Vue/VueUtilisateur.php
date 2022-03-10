@@ -42,13 +42,13 @@ class VueUtilisateur{
     }
 
     private function affichageProduit(){
-        $body = `
-        <form action="/produits">
+        $body = <<<END
+        <form action="$this->base/produits">
           <label for="q">Chercher un produit</label>
           <input type="search" id="q" name="q">
-          <input type="submit">
+          <input type="submit" value="Rechercher">
         </form>
-        `;
+        END;
         foreach($this->tab as $p){
             $body .= "Nom du produit : $p->titre, <br> Poids du produit : $p->poids, <br> Description : $p->description &nbsp; <br> <img src=\"./assets/images/produits/$p->id.jpg\"></img> <br /> ";
         }
