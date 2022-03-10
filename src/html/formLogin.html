@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="Style/styleLogin.css">
+</head>
+<body>
+<div class="center">
+    <h1>Login</h1>
+    <form action="./loginConfirm" method="post" enctype="multipart/form-data">
+        <div class="txt_field">
+            <input type="text" required id="username" name="username">
+            <span></span>
+            <label>Username</label>
+        </div>
+        <div class="txt_field">
+            <input type="password" required id="password" name="password">
+            <span></span>
+            <label>Password</label>
+        </div>
+        <div class="show">
+            <input type="checkbox" onclick="showOrNot()"> Show password
+        </div>
+        <input type="submit" value="Login">
+        <div class="signup_link">
+            Want to create a List ? <a href="./signUp">SignUp</a>
+        </div>
+        <div class="signup_link">
+            Want to access a List via a token ? <a href="./token">Access Here</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function showOrNot() {
+        let pass = document.getElementById("password");
+        if (pass.type === "password") {
+            pass.type = "text";
+        } else {
+            pass.type = "password";
+        }
+    }
+</script>
+
+</body>
+</html>
