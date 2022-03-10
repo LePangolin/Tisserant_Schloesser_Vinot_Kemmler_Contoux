@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace custumbox\php\controleur;
 
 // IMPORTS
-use custumbox\Modele\Boite;
+use custumbox\php\Modele\Boite;
 use custumbox\Modele\Commande;
+use custumbox\php\Modele\Produit;
 use Slim\Container;
 
 /**
@@ -28,12 +29,13 @@ class ControleurCommande
         $route_uri = $container->router->pathFor();
         $url = $base . $route_uri;
         $content = $rq->getParsedBody();
-        $nomBoite=$content['boite'];
-        $message=$content['message'];
+        $nomBoite=filter_var($content['boite'],FILTER_SANITIZE_STRING);
+        $message=filter_var($content['message'],FILTER_SANITIZE_STRING);
         $idCreateur=$content['createur'];
         $couleur=$content['couleur'];
-        $destinaire=$content['destinataire'];
+        $destinaire=filter_var($content['destinataire'],FILTER_SANITIZE_STRING);
         $lien=$content['lien'];
+        $produits=$content['produits'];
 
         $boite=Boite::where("taille","=",$nomBoite);
         if(is_null($boite)){
@@ -48,7 +50,13 @@ class ControleurCommande
             $CommandeToAdd->Destinataire=$destinaire;
             $CommandeToAdd->Lien=$lien;
             $CommandeToAdd->save();
-            echo("Sauvegarde effectuée");
+            echo("Sauvegarde effectuée dans Commande");
+            foreach ($produits as $produit){
+                $prod=Produit::where("name","=",$produit['nom']);
+                $CommandeToAdd->produits()->save($prod, ['qte'=>$produit['qte']]);
+            }
+
+
         }
 
 
