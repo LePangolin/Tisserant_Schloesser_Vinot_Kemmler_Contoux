@@ -43,17 +43,21 @@ function(Request $rq, Response $rs, array $args): Response{
 
 
 
-$app->get('/formulaireCreerCommande[/]',
+$app->get('/faireCommande[/]',
 function (Request $rq, Response $rs, array $args):Response{
     $controller=new ControleurCommande($this);
-    return $controller->creerCommande($rq,$rs,$args);
-})->setName("formulaireCreerCommande");
+    return $controller->enregistrerCommande($rq,$rs,$args);
+})->setName("faireCommande");
 
 $app->post('/nouvelleCommande[/]',
 function (Request $rq,Response $rs, array $args):Response{
     $controller=new ControleurCommande($this);
-    return $controller->creerCommande($rq,$rs,$args);
-})->setName("nouvelleCommande");;
+    return $controller->construireCommande($rq,$rs,$args);
+})->setName("nouvelleCommande");
+
+
+
+
 /*************************
  * connexion
  *************************/
