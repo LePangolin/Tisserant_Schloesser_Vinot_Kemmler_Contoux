@@ -23,6 +23,11 @@ class ControleurCompte
 
     // METHODES
 
+    /**
+     * Méthode qui créé un compte utilisateur dans la base de donnée
+     *
+     * @param array $args
+     */
     private function creerCompteInBDD(array $args) : void{
         $c = new utilisateur();
         $c->Login = filter_var($args['Login'], FILTER_SANITIZE_STRING);
@@ -32,6 +37,12 @@ class ControleurCompte
         $c->save();
     }
 
+    /**
+     * Méthode qui test si le login est déjà existant
+     *
+     * @param string $login
+     * @return bool
+     */
     private function loginValide( string $login) : bool{
         $res =  utilisateur::where('login', '=', $login)->get();
         $r = $res->count();
@@ -39,6 +50,14 @@ class ControleurCompte
         else return false;
     }
 
+    /**
+     * Méthode qui créé un compte
+     *
+     * @param Request $rq
+     * @param Response $rs
+     * @param array $args
+     * @return Response
+     */
     public function creerCompte(Request $rq, Response $rs, array $args): Response {
         try {
             $vue = new VueUtilisateur($this->container);
