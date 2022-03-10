@@ -48,11 +48,11 @@ function (Request $rq, Response $rs, array $args):Response{
     return $controller->creerCommande($rq,$rs,$args);
 })->setName("formulaireCreerCommande");
 
-$app->get('/creerPost[/]',
+$app->post('/nouvelleCommande[/]',
 function (Request $rq,Response $rs, array $args):Response{
     $controller=new ControleurCommande($this);
     return $controller->creerCommande($rq,$rs,$args);
-});
+})->setName("nouvelleCommande");;
 /*************************
  * connexion
  *************************/
