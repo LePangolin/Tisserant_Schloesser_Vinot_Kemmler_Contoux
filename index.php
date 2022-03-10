@@ -41,7 +41,8 @@ function(Request $rq, Response $rs, array $args): Response{
     return $controller->afficherHome($rq,$rs,$args);
 })->setName("home");
 
-$app->post('/formulaireCreerCommande[/]',
+
+$app->get('/formulaireCreerCommande[/]',
 function (Request $rq, Response $rs, array $args):Response{
     $controller=new ControleurCommande($this);
     return $controller->creerCommande($rq,$rs,$args);

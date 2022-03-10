@@ -76,7 +76,7 @@ class VueUtilisateur{
         return file_get_contents($file);
     }
     private function creerCommande():string{
-        $file="mettreformulairehtml";
+        $file="./src/html/index.html";
         return file_get_contents($file);
     }
     public function render(): string {
