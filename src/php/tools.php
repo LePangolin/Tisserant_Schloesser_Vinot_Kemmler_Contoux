@@ -128,10 +128,10 @@ class tools {
 
         $nav = <<<END
         <div class="topnav" id="myTopnav">
-            <a href="$base/" class="active"> MyWishList</a>
-            <a href="$base/formulaireListe">Créer ma liste</a>
-            <a href="$base/token">Trouver une liste avec un token</a>
-            <a href="$base/createurs">Créateurs</a>
+            <a href="$base/" class="active">CustomBox</a>
+            <a href="$base/formulaireListe">Produit</a>
+            <a href="$base/token">jesais pas</a>
+            <a href="$base/createurs">allo</a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <p class="fa fa-bars">
                     <span class="hamburger"></span>
