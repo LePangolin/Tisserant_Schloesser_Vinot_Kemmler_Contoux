@@ -5,114 +5,214 @@ declare(strict_types=1);
 namespace custumbox\php\controleur;
 
 // IMPORTS
+use custumbox\php\tools;
 use custumbox\php\Vue\VueUtilisateur;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Container;
 use custumbox\php\Modele\Compte;
 
-class ControleurCompte
-{
-    // ATTRIBUTS
-    private $container;
-
-    // CONSTRUCTEUR
-    public function __construct(Container $container) {
-        $this->container = $container;
-    }
-
-    // METHODES
+class ControleurCompte {
+    const LOGIN = 'login';
+    const SIGNUP = 'signUp';
+    const TAILLE_USERNAME_MIN = 4;
+    const TAILLE_USERNAME_MAX = 100;
+    const TAILLE_MDP_MIN = 8;
+    const TAILLE_MDP_MAX = 256;
 
     /**
-     * Méthode qui créé un compte utilisateur dans la base de donnée
-     *
-     * @param array $args
+     * @var object container
      */
-    private function creerCompteInBDD(array $args) : void{
-        $c = new Compte();
-        $c->Login = filter_var($args['Login'], FILTER_SANITIZE_STRING);
-        $c->sel = password_hash(filter_var($args['Mdp'], FILTER_SANITIZE_STRING), PASSWORD_DEFAULT);
-        $c->Mail = filter_var($args['Mail'], FILTER_SANITIZE_EMAIL);
-        $c->Telephone = filter_var($args['Telephone'], FILTER_SANITIZE_STRING);
-        $c->save();
-    }
+    private object $c;
 
     /**
-     * Méthode qui test si le login est déjà existant
-     *
-     * @param string $login
-     * @return bool
+     * Constructeur de RegisterController
+     * @param object $c container
      */
-    private function loginValide( string $login) : bool{
-        $res =  Compte::where('login', '=', $login)->get();
-        $r = $res->count();
-        if ($r==0) return true;
-        else return false;
+    public function __construct(object $c) {
+        $this->c = $c;
     }
 
     /**
-     * Méthode qui créé un compte
-     *
-     * @param Request $rq
-     * @param Response $rs
-     * @param array $args
+     * Traitement de l'inscription d'un utilisateur
+     * @param Request $rq requête
+     * @param Response $rs réponse
+     * @param array $args arguments de la requête
      * @return Response
      */
-    public function creerCompte(Request $rq, Response $rs, array $args): Response {
-        try {
-            $vue = new VueUtilisateur($this->container);
+    public function newUser(Request $rq, Response $rs, array $args): Response {
+        $container = $this->c;
+        $base = $rq->getUri()->getBasePath();
+        $route_uri = $container->router->pathFor('signupConfirm');
+        $url = $base . $route_uri;
+        $content = $rq->getParsedBody();
 
-            if (sizeof($args) == 4) {
-                if ($this->loginValide(filter_var($args['login'], FILTER_SANITIZE_STRING)) == true) {
-                    $this->creerCompteInBDD($args);
+        $NomUtilisateur = filter_var($content['username'], FILTER_SANITIZE_STRING);
+        $MotDePasse = $content['password'];
+        $options = ['cost' => 12];
+        $MotDePasseConfirm = $content['password_confirm'];
+        $Email = filter_var($content['email'], FILTER_SANITIZE_EMAIL);
 
-                }
-            }
-        }catch (\Exception $e) {
-            $rs->getBody()->write("Erreur dans la creation d'un compte...<br>".$e->getMessage()."<br>".$e->getTrace());
+        $userNameExist = Compte::where("Login", "=", $NomUtilisateur)->count();
+
+        if (strlen($NomUtilisateur) < self::TAILLE_USERNAME_MIN) {
+            $notifMsg = urlencode("Ce nom d'utilisateur est trop court. Réessayez.");
+            return $rs->withRedirect($base."/signUp?notif=$notifMsg");
+        } else if (strlen($NomUtilisateur) > self::TAILLE_USERNAME_MAX) {
+            $notifMsg = urlencode("Ce nom d'utilisateur est trop long. Réessayez.");
+            return $rs->withRedirect($base."/signUp?notif=$notifMsg");
+        } else if ($userNameExist != 0) {
+            $notifMsg = urlencode("Ce nom d'utilisateur est déjà pris. Réessayez.");
+            return $rs->withRedirect($base."/signUp?notif=$notifMsg");
+        } else if (strlen($MotDePasse) < self::TAILLE_MDP_MIN) {
+            $notifMsg = urlencode("Ce mot de passe est trop court. Réessayez.");
+            return $rs->withRedirect($base."/signUp?notif=$notifMsg");
+        } else if (strlen($MotDePasse) > self::TAILLE_MDP_MAX) {
+            $notifMsg = urlencode("Ce mot de passe est trop long. Réessayez.");
+            return $rs->withRedirect($base."/signUp?notif=$notifMsg");
+        } else if ($MotDePasseConfirm != $MotDePasse) {
+            $notifMsg = urlencode("Les mots de passe ne correspondent pas. Réessayez.");
+            return $rs->withRedirect($base."/signUp?notif=$notifMsg");
+        } else {
+            $MotDePasse = password_hash($MotDePasse, PASSWORD_DEFAULT, $options);
+            $newUser = new Compte();
+            $newUser->Login=$NomUtilisateur;
+            $newUser->sel=$MotDePasse;
+            $newUser->Mail=$Email;
+            $newUser->Telephone = filter_var($args['Telephone'], FILTER_SANITIZE_STRING);
+            $newUser->Niveau_acces=1;
+            $newUser->save();
+
+            // gestion session
+            $this->sessionConnexion($newUser);
+
+            $notifMsg = urlencode("Vous êtes connecté en tant que $NomUtilisateur.");
+            return $rs->withRedirect($base."?notif=$notifMsg");
         }
-        return $rs;
     }
 
-    private function supprimerSessionConnexion() :void {
+    /**
+     * Gestion de la session lors de la connexion d'un utilisateur
+     * @param Compte $user Utilisateur connecté
+     * @return void
+     */
+    private function sessionConnexion(Compte $user): void {
+        if (isset($_SESSION['Login'])) {
+            session_destroy();
+            session_start();
+        }
+        $_SESSION['Login'] = $user['Login'];
+        $_SESSION['AccessRights'] = $user['Niveau_acces'];
+    }
+
+    /**
+     * Gestion de la session lors de la déconnexion d'un utilisateur
+     * @return void
+     */
+    private function sessionDeconnexion(): void {
         session_destroy();
-    }
-
-    private function genereSessionConnexion($login): void{
         session_start();
-        $_SESSION['Login'] = $login;
     }
 
-    private function mdpValide($login, $mdp): bool {
-        $sel = Compte::select('Mdp')->where('Login', '=', $login)->first();
-        return password_verify($mdp, $sel["Mdp"]);
+    /**
+     * Traitement de la déconnexion d'un utilisateur
+     * @param Request $rq requête
+     * @param Response $rs réponse
+     * @param array $args arguments de la requête
+     * @return Response
+     */
+    public function logout(Request $rq, Response $rs, array $args): Response {
+        $container = $this->c;
+        $base = $rq->getUri()->getBasePath();
+        $route_uri = $container->router->pathFor('logout');
+        $url = $base . $route_uri;
+
+
+        $this->sessionDeconnexion();
+
+        $notifMsg = urlencode("Vous avez été déconnecté.");
+
+
+        return $rs->withRedirect($base."/login?notif=$notifMsg");
     }
 
-    public function seDeconnecterCompte(Request $rq, Response $rs, array $args): Response {
-        $this->supprimerSessionConnexion();
-        //$rs = $rs->withRedirect($this->container->router->pathFor('accueil'));
+    /**
+     * Affichage de la page permettant la connexion d'un utilisateur
+     * @param Request $rq requête
+     * @param Response $rs réponse
+     * @param array $args arguments de la requête
+     * @return Response
+     */
+    public function loginPage(Request $rq, Response $rs, array $args): Response {
+        $container = $this->c;
+        $base = $rq->getUri()->getBasePath();
+        $route_uri = $container->router->pathFor('login');
+        $url = $base . $route_uri;
+
+        $notif = tools::prepareNotif($rq);
+
+        $v = new VueUtilisateur([], ControleurCompte::LOGIN, $notif, $base);
+        $rs->getBody()->write($v->render());
         return $rs;
     }
 
-    public function seConnecterCompte(Request $rq, Response $rs, array $args): Response {
-        try {
-            $vue = new VueUtilisateur($this->container);
-            if (sizeof($args) == 2) {
-                $login = filter_var($args['login'], FILTER_SANITIZE_STRING);
-                if ($this->loginValide($login) == false) {
-                    if ($this->mdpValide($login, filter_var($args['psw'], FILTER_SANITIZE_STRING)) == true) {
-                        $this->genereSessionConnexion($login);
-                        //$rs = $rs->withRedirect($this->container->router->pathFor('accueil'));
-                    } else {
-                        $rs->getBody()->write($vue->render($vue->htmlErreur("Erreur, la connexion n'a pas pu aboutir. Erreur dans le mdp.")));
-                    }
-                } else {
-                    $rs->getBody()->write($vue->render($vue->htmlErreur("Erreur, la connexion n'a pas pu aboutir. Erreur dans le login")));
-                }
+    /**
+     * Traitement de la connexion d'un utilisateur
+     * @param Request $rq requête
+     * @param Response $rs réponse
+     * @param array $args arguments de la requête
+     * @return Response
+     */
+    public function authentification(Request $rq, Response $rs, array $args): Response {
+        $container = $this->c;
+        $base = $rq->getUri()->getBasePath();
+        $route_uri = $container->router->pathFor('loginConfirm');
+        $url = $base . $route_uri;
+
+        $content = $rq->getParsedBody();
+
+        $NomUtilisateur = $content['username'];
+        $MotDePasse = $content['password'];
+
+
+        $userNameExist = Compte::where("Login", "=", $NomUtilisateur)->count();
+
+        if ($userNameExist == 1) {
+            $GetUser=Compte::where("Login","=",$NomUtilisateur)->first();
+            $HashedPassword=$GetUser->password;
+            if (password_verify($MotDePasse,$HashedPassword)) {
+                $user = Compte::where('Login', '=', $NomUtilisateur)->first();
+
+                $this->sessionConnexion($user);
+
+                $notifMsg = urlencode("Vous êtes connecté en tant que $NomUtilisateur.");
+                return $rs->withRedirect($base."?notif=$notifMsg");
             }
-        } catch (\Exception $e) {
-            $rs->getBody()->write("Erreur a la connexion d'un compte...<br>".$e->getMessage()."<br>".$e->getTrace());
         }
+
+        $this->sessionDeconnexion();
+
+        $notifMsg = urlencode("Mot de passe ou nom d'utilisateur incorrect.");
+        return $rs->withRedirect($base."/login?notif=$notifMsg");
+    }
+
+    /**
+     * Affichage de la page permettant l'inscription d'un utilisateur
+     * @param Request $rq requête
+     * @param Response $rs réponse
+     * @param array $args arguments de la requête
+     * @return Response
+     */
+    public function signUpPage(Request $rq, Response $rs, array $args): Response {
+        $container = $this->c;
+        $base = $rq->getUri()->getBasePath();
+        $route_uri = $container->router->pathFor('signUp');
+        $url = $base . $route_uri;
+
+        $notif = tools::prepareNotif($rq);
+
+        $v = new VueUtilisateur([], ControleurCompte::SIGNUP, $notif, $base);
+        $rs->getBody()->write($v->render());
         return $rs;
     }
 }
