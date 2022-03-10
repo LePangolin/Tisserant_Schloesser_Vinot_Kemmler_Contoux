@@ -129,7 +129,7 @@ class tools {
         $nav = <<<END
         <div class="topnav" id="myTopnav">
             <a href="$base/" class="active">CustomBox</a>
-            <a href="$base/products">Produit</a>
+            <a href="$base/produits">Produit</a>
             <a href="$base/token">jesais pas</a>
             <a href="$base/createurs">allo</a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
