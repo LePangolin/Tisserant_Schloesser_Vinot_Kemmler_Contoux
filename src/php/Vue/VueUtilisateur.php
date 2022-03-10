@@ -51,12 +51,10 @@ class VueUtilisateur{
           <input type="search" id="q" name="q">
           <input type="submit" value="Rechercher">
         </form>
-        <div class="row">
         END;
         foreach($this->tab as $p){
-            $body .= "<div class='col-12 col-md-6 pg-l-4'> <div class='card'style='width: 100%;'> <img class='card-img-top' src=\"./assets/images/produits/$p->id.jpg\"> <div> <h5 class='card-title'>$p->titre , Poids du produit : $p->poids,  </h5><p class='card-text'> $p->description</p></div></div> </div> <br /> ";
+            $body .= "Nom du produit : $p->titre, <br> Poids du produit : $p->poids, <br> Description : $p->description &nbsp; <br> <img src=\"./assets/images/produits/$p->id.jpg\"></img> <br /> ";
         }
-        $body.="</div";
         return $body;
     }
 
