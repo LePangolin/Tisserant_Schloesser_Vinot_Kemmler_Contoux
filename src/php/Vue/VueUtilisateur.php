@@ -5,6 +5,7 @@ namespace custumbox\php\Vue;
 
 use custumbox\php\controleur\ControleurAffichage;
 use custumbox\php\controleur\ControleurCommande;
+use custumbox\php\controleur\ControleurCompte;
 use custumbox\php\controleur\ControleurProduit;
 use custumbox\php\Modele\Produit;
 use custumbox\php\tools;
@@ -56,8 +57,26 @@ class VueUtilisateur{
         }
         return $body;
     }
+
+    /**
+     * Récupère la page de connexion
+     * @return string
+     */
+    private function loginPage(): string {
+        $file =  "./src/html/formLogin.html";
+        return file_get_contents($file);
+    }
+
+    /**
+     * Récupère la page d'inscription
+     * @return string
+     */
+    public function signUpPage(): string {
+        $file =  "./src/html/formSignUp.html";
+        return file_get_contents($file);
+    }
     private function creerCommande():string{
-        $file="mettreformulairehtml";
+        $file="./src/html/index.html";
         return file_get_contents($file);
     }
     public function render(): string {
@@ -74,6 +93,14 @@ class VueUtilisateur{
             }
             case ControleurAffichage::HOME : {
                 $htmlPage = $this->home();
+                break;
+            }
+            case ControleurCompte::LOGIN : {
+                $htmlPage = $this->loginPage();
+                break;
+            }
+            case ControleurCompte::SIGNUP : {
+                $htmlPage = $this->signUpPage();
                 break;
             }
             case ControleurProduit::ALL_PRODUCTS : {

@@ -64,7 +64,7 @@ class ControleurCommande {
                     $CommandeToAdd->produits()->save($prod, ['qte'=>$produit['qte']]);
                 }
                 $notifMsg = urlencode("Commande créée !");
-                return $rs->withRedirect($base."/list/view?token=$CommandeToAdd->id&notif=$notifMsg");
+                return $rs->withRedirect($base."?notif=$notifMsg");
             }
         }else{
             $notifMsg = urlencode("Impossible de créer une nouvelle liste. Reconnectez-vous.");

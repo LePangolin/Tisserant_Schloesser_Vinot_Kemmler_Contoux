@@ -2,8 +2,9 @@
 	"require":{
 		"illuminate/database": "8.*",
 		"slim/slim": "3.*",
-		"php": ">=7.3"
-	},
+		"php": ">=7.3",
+      "ext-openssl": "*"
+    },
 
 	"autoload":{
 		"psr-4": {
