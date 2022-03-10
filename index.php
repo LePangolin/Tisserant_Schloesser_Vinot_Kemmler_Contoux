@@ -39,12 +39,12 @@ function(Request $rq, Response $rs, array $args): Response{
     $controller = new ControleurAffichage($this);
     return $controller->afficherHome($rq,$rs,$args);
 })->setName("home");
-$app->post('/creerCommande[/]',
+$app->post('/formulaireCreerCommande[/]',
 function (Request $rq, Response $rs, array $args):Response{
-    $controlleur=new ControleurCommande($this);
-    return $controlleur->creerCommande($rq,$rs,$args);
+    $controller=new ControleurCommande($this);
+    return $controller->creerCommande($rq,$rs,$args);
 
-})->setName("createCommande");
+})->setName("formulaireCreerCommande");
 try {
     $app->run();
 } catch (Throwable $e) {
